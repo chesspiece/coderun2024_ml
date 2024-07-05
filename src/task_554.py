@@ -32,7 +32,7 @@ def parser(path: os.PathLike) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int
 
 def main(
     array: npt.NDArray[np.int64],
-    ker: np.ndarray[np.int64],
+    ker: npt.NDArray[np.int64],
 ) -> npt.NDArray[np.int64]:
     """
     Compute 2d convolution.
