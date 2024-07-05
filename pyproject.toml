@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "coderun-machine-learning-2024"
+version = "0.1.0"
+description = "Solutions for yandex coderun secon season of 2024. Machine learning."
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+numpy = "^2.0.0"
+pyright = "^1.1.370"
+ruff = "^0.5.1"
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.26.0"
+ipdb = "^0.13.13"
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

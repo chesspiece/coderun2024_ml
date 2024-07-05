@@ -1,0 +1,4 @@
+poetry.lock
+.pytest*
+*__pycache__*
+*.txt
