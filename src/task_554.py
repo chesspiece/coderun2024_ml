@@ -48,8 +48,7 @@ def main(
 
 if __name__ == "__main__":
     path = Path("./data/554.txt")
-    arr, ker = parser(path)
-    res = main(arr, ker)
+    res = main(*parser(path))
     shp1, shp2 = res.shape
     for idx in range(shp1):
         print(" ".join([str(x) for x in res[idx, :]]))
