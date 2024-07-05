@@ -12,6 +12,7 @@ python = "^3.12"
 numpy = "^2.0.0"
 pyright = "^1.1.370"
 ruff = "^0.5.1"
+mypy = "^1.10.1"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.26.0"
