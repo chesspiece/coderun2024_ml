@@ -31,11 +31,26 @@ def parser(path: os.PathLike) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int
 
 
 def main(
-    array: npt.NDArray[np.int64, ker : np.ndarray[np.int64]],
+    array: npt.NDArray[np.int64],
+    ker: np.ndarray[np.int64],
 ) -> npt.NDArray[np.int64]:
-    pass
+    """
+    Compute 2d convolution.
+    """
+    shp, _ = ker.shape
+    shp1, shp2 = (arr_shp - shp + 1 for arr_shp in array.shape)
+    new_array = np.zeros_like(array)
+    for t in range(shp):
+        for l in range(shp):  # noqa: E741
+            new_array += np.roll(np.roll(array, -t, axis=0), -l, axis=1) * ker[t, l]
+    return new_array[0:shp1, 0:shp2]
 
 
 if __name__ == "__main__":
-    tst = np.zeros((1, 1))
+    path = Path("./data/554.txt")
+    arr, ker = parser(path)
+    res = main(arr, ker)
+    shp1, shp2 = res.shape
+    for idx in range(shp1):
+        print(" ".join([str(x) for x in res[idx, :]]))
     pass
