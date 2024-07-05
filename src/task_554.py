@@ -53,4 +53,3 @@ if __name__ == "__main__":
     shp1, shp2 = res.shape
     for idx in range(shp1):
         print(" ".join([str(x) for x in res[idx, :]]))
-    pass
