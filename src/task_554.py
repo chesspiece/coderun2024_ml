@@ -29,7 +29,7 @@ def parser(path: os.PathLike[str]) -> tuple[npt.NDArray[np.int64], npt.NDArray[n
         return array, ker
 
 
-def main(
+def custom_conv2d(
     array: npt.NDArray[np.int64],
     ker: npt.NDArray[np.int64],
 ) -> npt.NDArray[np.int64]:
@@ -47,7 +47,7 @@ def main(
 
 if __name__ == "__main__":
     path = Path("./data/554.txt")
-    res = main(*parser(path))
+    res = custom_conv2d(*parser(path))
     shp1, shp2 = res.shape
     for idx in range(shp1):
         print(" ".join([str(x) for x in res[idx, :]]))
