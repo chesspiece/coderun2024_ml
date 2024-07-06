@@ -3,7 +3,10 @@ import os
 from pathlib import Path
 import numpy.typing as npt
 
-def parser(path: os.PathLike[str]) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64]]:
+
+def parser(
+    path: os.PathLike[str],
+) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64]]:
     """
     Parse input from file into an array and kernel
     """
