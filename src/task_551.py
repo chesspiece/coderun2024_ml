@@ -37,15 +37,12 @@ def similarity(
     """
     Compute similarity metric from task 551.
     """
-    sum = 0
-    divisor = size * (size - 1)
-    for i in range(size):
-        for j in range(i):
-            sum += int(
-                (h1_classes[i] == h1_classes[j]) == (h2_classes[i] == h2_classes[j])
-            )
-    gcd_val = gcd(2 * sum, divisor)
-    return (2 * sum // gcd_val, divisor // gcd_val)
+    sum: int = 0
+    divisor = size * (size - 1) // 2
+    for i in range(0, size - 1):
+        sum += np.sum((h1_classes[i + 1::] == h1_classes[i]) == (h2_classes[i + 1::] == h2_classes[i]))
+    gcd_val = gcd(sum, divisor)
+    return (sum // gcd_val, divisor // gcd_val)
 
 
 if __name__ == "__main__":
