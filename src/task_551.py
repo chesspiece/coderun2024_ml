@@ -25,7 +25,7 @@ def similarity(
     array: npt.NDArray[np.int64], ker: npt.NDArray[np.int64], size: int
 ) -> tuple[int, int]:
     """
-    Compute 2d convolution.
+    Compute similarity metric from task 551
     """
     return (0, 0)
 

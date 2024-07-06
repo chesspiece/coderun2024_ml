@@ -5,7 +5,7 @@ import numpy as np
 from src.task_551 import similarity, parser
 
 
-def test_parser_554():
+def test_parser_551():
     path = Path("./tests/data/551/test1.txt")
     h1_classes, h2_classes, size = parser(path)
     assert np.all(h1_classes == np.array([1, 2, 0]))
@@ -37,7 +37,7 @@ def test_parser_554():
     assert size == 2
 
 
-def test_task_554():
+def test_task_551():
     path = Path("./tests/data/551/test1.txt")
     assert similarity(*parser(path)) == (1, 1)
 
