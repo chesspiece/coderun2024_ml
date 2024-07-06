@@ -22,10 +22,10 @@ def parser(
 
 
 def similarity(
-    array: npt.NDArray[np.int64], ker: npt.NDArray[np.int64], size: int
+    h1_classes: npt.NDArray[np.int64], h2_classes: npt.NDArray[np.int64], size: int
 ) -> tuple[int, int]:
     """
-    Compute similarity metric from task 551
+    Compute similarity metric from task 551.
     """
     return (0, 0)
 
