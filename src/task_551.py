@@ -40,6 +40,8 @@ def similarity(
     h1_dicttmp = defaultdict(lambda: [])
     h2_dicttmp = defaultdict(lambda: [])
     sm1_dict = defaultdict(lambda: (0, 0))
+    sm2_dict = defaultdict(lambda: (0, 0))
+
     #sm2_dict: dict[int, int] = defaultdict(lambda: 0)
     divisor = size * (size - 1) >> 1
     for i in range(0, size):
@@ -69,7 +71,7 @@ def similarity(
             continue
 
         if len(res1) < len(res2):
-            sm, it = sm1_dict[h1_classes[i]]
+            sm, it = sm1_dict[(h1_classes[i], h2_classes[i])]
             for i in res1[it::]:
                 tts = res2.searchsorted(i)
                 #if i not in res2:
@@ -78,13 +80,13 @@ def similarity(
             sm1_dict[(h1_classes[i], h2_classes[i])] = (sm, it+1)
             sum -= sm + (len(res2) - (len(res1) - sm))
         else:
-            sm, it = sm1_dict[h2_classes[i]]
+            sm, it = sm2_dict[(h2_classes[i], h1_classes[i])]
             for i in res2[it::]:
                 tts = res1.searchsorted(i)
                 #if i not in res2:
                 if tts==len(res1) or res1[tts] != i:
                     sm += 1
-            sm1_dict[(h2_classes[i], h1_classes[i])] = (sm, it+1)
+            sm2_dict[(h2_classes[i], h1_classes[i])] = (sm, it+1)
             sum -= sm + (len(res1) - (len(res2) - sm))
     gcd_val = gcd(sum, divisor)
     return (sum // gcd_val, divisor // gcd_val)
