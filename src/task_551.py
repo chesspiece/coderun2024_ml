@@ -50,13 +50,8 @@ def similarity(
     for j in h2_dicttmp:
         h2_dict[j] = np.array(h2_dicttmp[j])
     
-    #h1_dict[h1_classes[0]] = np.append(h1_dict[h1_classes[0]], 0) 
-    #h2_dict[h2_classes[0]] = np.append(h2_dict[h2_classes[0]], 0) 
+
     for i in range(1, size):
-        #sm1 = (h1_classes[i + 1::] == h1_classes[i])
-        #sm2 = (h2_classes[i + 1::] == h2_classes[i])
-        #h1_dict[h1_classes[i]] = np.append(h1_dict[h1_classes[i]], i) 
-        #h2_dict[h2_classes[i]] = np.append(h2_dict[h2_classes[i]], i) 
         res1 = h1_dict[h1_classes[i]]
         res2 = h2_dict[h2_classes[i]]
         #res1 = res1[res1 < i]
@@ -91,7 +86,6 @@ def similarity(
                     sm += 1
             sm1_dict[(h2_classes[i], h1_classes[i])] = (sm, it+1)
             sum -= sm + (len(res1) - (len(res2) - sm))
-        #sum -= res2.size - (res1.size - sm)
     gcd_val = gcd(sum, divisor)
     return (sum // gcd_val, divisor // gcd_val)
 
