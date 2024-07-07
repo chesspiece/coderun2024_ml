@@ -46,8 +46,6 @@ def similarity(
     Compute similarity metric from task 551.
     """
     sum = 0
-    # h1_dict = {}#defaultdict(lambda: np.array([], dtype=np.int32))
-    # h2_dict = {}#defaultdict(lambda: np.array([], dtype=np.int32))
     h1_dict: dict[int, list[int]] = defaultdict(lambda: [])
     h2_dict: dict[int, list[int]] = defaultdict(lambda: [])
     dict_idx1: dict[int, int] = defaultdict(lambda: 0)
@@ -55,9 +53,7 @@ def similarity(
     # sm1_dict = defaultdict(lambda: (0, 0))
     # sm2_dict = defaultdict(lambda: (0, 0))
 
-    # sm2_dict: dict[int, int] = defaultdict(lambda: 0)
     divisor = size * (size - 1) >> 1
-    #for i in range(0, size):
     h1_dict[h1_classes[0]].append(0)
     h2_dict[h2_classes[0]].append(0)
 
@@ -87,20 +83,13 @@ def similarity(
         if len(res1) < len(res2):
             sm = 0
             for i in res1:
-                # tts = res2.searchsorted(i)
-                # if i not in res2:
                 if fisl(i, res2) == -1:
-
-                    # if tts==len(res2) or res2[tts] != i:
                     sm += 1
             sum -= sm + (len(res2) - (len(res1) - sm))
         else:
             sm = 0  # sm2_dict[(h2_classes[i], h1_classes[i])]
             for i in res2:
-                # tts = res1.searchsorted(i)
-                #if i not in res1:
                 if fisl(i, res1) == -1:
-                    # if tts==len(res1) or res1[tts] != i:
                     sm += 1
             sum -= sm + (len(res1) - (len(res2) - sm))
     gcd_val = gcd(sum, divisor)
