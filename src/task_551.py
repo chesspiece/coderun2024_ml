@@ -2,6 +2,7 @@ import numpy as np
 import os
 from pathlib import Path
 import numpy.typing as npt
+from collections import defaultdict
 
 
 def gcd(a: int, b: int) -> int:
@@ -38,25 +39,27 @@ def similarity(
     Compute similarity metric from task 551.
     """
     sum: int = 0
-    h1_dict: dict[int, npt.NDArray[np.bool]] = {}
-    h2_dict: dict[int, npt.NDArray[np.bool]] = {}
+    h1_dict: dict[int, npt.NDArray[np.bool]] = defaultdict(lambda: np.array([], dtype=np.int64))
+    h2_dict: dict[int, npt.NDArray[np.bool]] = defaultdict(lambda: np.array([], dtype=np.int64))
     divisor = size * (size - 1) // 2
-    for i in range(0, size - 1):
-        if h1_classes[i] in h1_dict:
-            sm1 = h1_dict[h1_classes[i]]
-            sm1 = sm1[len(sm1)-(size-i-1)::]
-        else:
-            sm1 = (h1_classes[i + 1::] == h1_classes[i])
-            h1_dict[h1_classes[i]] = sm1
-
-        if h2_classes[i] in h2_dict:
-            sm2 = h2_dict[h2_classes[i]]
-            sm2 = sm2[len(sm2)-(size-i-1)::]
-        else:
-            sm2 = (h2_classes[i + 1::] == h2_classes[i])
-            h2_dict[h2_classes[i]] = sm2
-
-        sum += np.sum(sm1 == sm2)
+    for i in range(0, size):
+        h1_dict[h1_classes[i]] = np.append(h1_dict[h1_classes[i]], i) 
+        h2_dict[h2_classes[i]] = np.append(h2_dict[h2_classes[i]], i) 
+    for i in range(0, size):
+        #sm1 = (h1_classes[i + 1::] == h1_classes[i])
+        #sm2 = (h2_classes[i + 1::] == h2_classes[i])
+        res1 = h1_dict[h1_classes[i]]
+        res2 = h2_dict[h2_classes[i]]
+        res1 = res1[res1 < i]
+        res2 = res2[res2 < i]
+        sum += i
+        
+        sm = 0
+        for i in res1:
+            if i not in res2:
+                sm += 1
+        sum -= sm
+        sum -= res2.size - (res1.size - sm)
     gcd_val = gcd(sum, divisor)
     return (sum // gcd_val, divisor // gcd_val)
 
