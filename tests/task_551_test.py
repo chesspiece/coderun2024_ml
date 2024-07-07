@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from src.task_551 import similarity, parser
+from fractions import Fraction
 
 
 def test_parser_551():
@@ -37,16 +38,16 @@ def test_parser_551():
 
 def test_task_551():
     path = Path("./tests/data/551/test1.txt")
-    assert similarity(*parser(path)) == (1, 1)
+    assert similarity(*parser(path)) == Fraction(1, 1)
 
     path = Path("./tests/data/551/test2.txt")
-    assert similarity(*parser(path)) == (3, 5)
+    assert similarity(*parser(path)) == Fraction(3, 5)
 
     path = Path("./tests/data/551/test3.txt")
-    assert similarity(*parser(path)) == (4, 9)
+    assert similarity(*parser(path)) == Fraction(4, 9)
 
     path = Path("./tests/data/551/test4.txt")
-    assert similarity(*parser(path)) == (1, 1)
+    assert similarity(*parser(path)) == Fraction(1, 1)
 
     path = Path("./tests/data/551/test5.txt")
-    assert similarity(*parser(path)) == (0, 1)
+    assert similarity(*parser(path)) == Fraction(0, 1)
