@@ -77,9 +77,6 @@ def similarity(h1_classes: list[int], h2_classes: list[int], size: int) -> Fract
     """
     Compute similarity metric from task 551.
     """
-    """
-    Compute similarity metric from task 551.
-    """
     sum = 0
     h1_dict: list[list[int]] = [
         [] for _ in range(size)
