@@ -17,23 +17,19 @@ def gcd(a: int, b: int) -> int:
 
 def parser(
     path: os.PathLike[str],
-) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64], int]:
+) -> tuple[list[int], list[int], int]:
     """
     Parse input from file into an array and kernel
     """
     with open(path, "r") as f:
         size = int(f.readline().strip())
-        h1_classes = np.array(
-            [int(x) for x in f.readline().strip().split(sep=" ")]
-        )  # classes choosen by first human
-        h2_classes = np.array(
-            [int(x) for x in f.readline().strip().split(sep=" ")]
-        )  # classes choosen by second human
+        h1_classes = [int(x) for x in f.readline().strip().split(sep=" ")] # classes choosen by first human
+        h2_classes = [int(x) for x in f.readline().strip().split(sep=" ")] # classes choosen by second human
     return h1_classes, h2_classes, size
 
 
 def similarity(
-    h1_classes: npt.NDArray[np.int64], h2_classes: npt.NDArray[np.int64], size: int
+    h1_classes: list[int], h2_classes: list[int], size: int
 ) -> tuple[int, int]:
     """
     Compute similarity metric from task 551.
