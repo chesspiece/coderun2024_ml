@@ -4,6 +4,7 @@ import bisect
 from fractions import Fraction
 from collections import defaultdict
 
+
 def fisl(elem: int, sorted_list: list[int]):
     # https://docs.python.org/3/library/bisect.html
     "Locate the leftmost value exactly equal to x"
@@ -79,12 +80,14 @@ def similarity(h1_classes: list[int], h2_classes: list[int], size: int) -> Fract
     """
 
     summ = 0
-    h1_dict: dict[int, list[int]] = [[] for _ in range(size)] # type: ignore 
-    h2_dict: dict[int, list[int]] = [[] for _ in range(size)] # type: ignore 
-    res2_dict_check: list[dict[int, bool]] = [defaultdict(lambda: False) for _ in range(size)]
-    #h2_dict_check: list[list[int]] = [[False]*size for _ in range(size)]
-    #sm1_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
-    #sm2_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
+    h1_dict: dict[int, list[int]] = [[] for _ in range(size)]  # type: ignore
+    h2_dict: dict[int, list[int]] = [[] for _ in range(size)]  # type: ignore
+    res2_dict_check: list[dict[int, bool]] = [
+        defaultdict(lambda: False) for _ in range(size)
+    ]
+    # h2_dict_check: list[list[int]] = [[False]*size for _ in range(size)]
+    # sm1_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
+    # sm2_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
 
     divisor = size * (size - 1) >> 1
     h1_dict[h1_classes[0]].append(0)
@@ -98,24 +101,24 @@ def similarity(h1_classes: list[int], h2_classes: list[int], size: int) -> Fract
         res2 = h2_dict[r2]
         lres1 = len(res1)
         lres2 = len(res2)
-        
+
         summ += i
 
-        #sm, it = sm1_dict[(h1_classes[i], h2_classes[i])]
+        # sm, it = sm1_dict[(h1_classes[i], h2_classes[i])]
         sm = 0
-        #for ii in res1:#res1[it::]:
+        # for ii in res1:#res1[it::]:
         #        #it += 1
         #    if not res2_dict_check[r2][ii]:#fisl(ii, res2) == -1:
         #        sm += 1
         sm = sum([2 if (fisl(ii, res2) == -1) else 0 for ii in res1])
-        #sm1_dict[(h1_classes[i], h2_classes[i])] = (sm, it)
+        # sm1_dict[(h1_classes[i], h2_classes[i])] = (sm, it)
         summ -= sm + lres2 - lres1
 
         h1_dict[r1].append(i)
         h2_dict[r2].append(i)
         res2_dict_check[r2][i] = True
 
-    #gcd_val = gcd(sum, divisor)
+    # gcd_val = gcd(sum, divisor)
     return Fraction(summ, divisor)
 
 
