@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 import bisect
 from fractions import Fraction
-
+from collections import defaultdict
 
 def fisl(elem: int, sorted_list: list[int]):
     # https://docs.python.org/3/library/bisect.html
@@ -77,48 +77,46 @@ def similarity(h1_classes: list[int], h2_classes: list[int], size: int) -> Fract
     """
     Compute similarity metric from task 551.
     """
-    sum = 0
-    h1_dict: list[list[int]] = [
-        [] for _ in range(size)
-    ]  # [[]]*size#defaultdict(lambda: [])
-    h2_dict: list[list[int]] = [[] for _ in range(size)]  # defaultdict(lambda: [])
-    # sm1_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
-    # sm2_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
 
-    # sm2_dict: dict[int, int] = defaultdict(lambda: 0)
+    summ = 0
+    h1_dict: dict[int, list[int]] = [[] for _ in range(size)] # type: ignore 
+    h2_dict: dict[int, list[int]] = [[] for _ in range(size)] # type: ignore 
+    res2_dict_check: list[dict[int, bool]] = [defaultdict(lambda: False) for _ in range(size)]
+    #h2_dict_check: list[list[int]] = [[False]*size for _ in range(size)]
+    #sm1_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
+    #sm2_dict: dict[tuple[int, int], tuple[int, int]] = defaultdict(lambda: (0, 0))
+
     divisor = size * (size - 1) >> 1
     h1_dict[h1_classes[0]].append(0)
     h2_dict[h2_classes[0]].append(0)
+    res2_dict_check[h2_classes[0]][0] = True
 
     for i in range(1, size):
-        res1 = h1_dict[h1_classes[i]]
-        res2 = h2_dict[h2_classes[i]]
+        r1 = h1_classes[i]
+        r2 = h2_classes[i]
+        res1 = h1_dict[r1]
+        res2 = h2_dict[r2]
+        lres1 = len(res1)
+        lres2 = len(res2)
+        
+        summ += i
 
-        sum += i
+        #sm, it = sm1_dict[(h1_classes[i], h2_classes[i])]
+        sm = 0
+        #for ii in res1:#res1[it::]:
+        #        #it += 1
+        #    if not res2_dict_check[r2][ii]:#fisl(ii, res2) == -1:
+        #        sm += 1
+        sm = sum([2 if (fisl(ii, res2) == -1) else 0 for ii in res1])
+        #sm1_dict[(h1_classes[i], h2_classes[i])] = (sm, it)
+        summ -= sm + lres2 - lres1
 
-        if len(res1) < len(res2):
-            sm = 0
-            # sm, it = sm1_dict[(h1_classes[i], h2_classes[i])]
-            for ii in res1:  # res1[it::]:
-                # it += 1
-                if fisl(ii, res2) == -1:
-                    sm += 1
-            # sm1_dict[(h1_classes[i], h2_classes[i])] = (sm, it)
-            sum -= sm + (len(res2) - (len(res1) - sm))
-        else:
-            sm = 0  # sm2_dict[(h2_classes[i], h1_classes[i])]
-            # sm, it = sm2_dict[(h2_classes[i], h1_classes[i])]
-            for ii in res2:  # res2[it::]:
-                # it += 1
-                if fisl(ii, res1) == -1:
-                    sm += 1
-            # sm2_dict[(h2_classes[i], h1_classes[i])] = (sm, it)
-            sum -= sm + (len(res1) - (len(res2) - sm))
+        h1_dict[r1].append(i)
+        h2_dict[r2].append(i)
+        res2_dict_check[r2][i] = True
 
-        h1_dict[h1_classes[i]].append(i)
-        h2_dict[h2_classes[i]].append(i)
-    # gcd_val = gcd(sum, divisor)
-    return Fraction(sum, divisor)
+    #gcd_val = gcd(sum, divisor)
+    return Fraction(summ, divisor)
 
 
 if __name__ == "__main__":
