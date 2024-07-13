@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.task_555 import parser
+from src.task_555 import custom_inverse_conv2d, parser
 
 
 def test_parser_555():
@@ -88,3 +88,29 @@ def test_parser_555():
             ]
         ),
     ).all()
+
+
+def test_task_555():
+    path = Path("./tests/data/555/test1.txt")
+    params, initial_matrix, result_matrix = parser(path)
+    res = custom_inverse_conv2d(*params, initial_matrix, result_matrix)
+    assert np.allclose(
+        res,
+        np.array([[1]]),
+    )
+
+    path = Path("./tests/data/555/test2.txt")
+    params, initial_matrix, result_matrix = parser(path)
+    res = custom_inverse_conv2d(*params, initial_matrix, result_matrix)
+    assert np.allclose(
+        res,
+        np.array([[-93, 38], [-82, 96]]),
+    )
+
+    path = Path("./tests/data/555/test3.txt")
+    params, initial_matrix, result_matrix = parser(path)
+    res = custom_inverse_conv2d(*params, initial_matrix, result_matrix)
+    assert np.allclose(
+        res,
+        np.array([[-92, 70, -15], [-3, 97, 32], [50, 38, 43]]),
+    )
