@@ -5,7 +5,11 @@
     ],
   
     "exclude": [
-      "**/__pycache__",
+      "**/__pycache__"
+    ],
+
+    "ignore": [
+        "./helper.py"
     ],
 
     "typeCheckingMode": "strict",
@@ -13,4 +17,4 @@
   
     "pythonVersion": "3.12",
     "pythonPlatform": "Linux",
-  }
+}
