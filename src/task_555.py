@@ -1,5 +1,5 @@
 import os
-import pathlib
+from pathlib import Path
 
 import numpy as np
 import numpy.typing as npt
@@ -40,9 +40,42 @@ def parser(
     return (n, m, k), initial_matrix, convolved_matrix
 
 
-def custom_inverse_conv2d():
-    pass
+def custom_inverse_conv2d(
+    n: int,
+    m: int,
+    k: int,
+    initial_matrix: npt.NDArray[np.int32],
+    convolved_matrix: npt.NDArray[np.int32],
+) -> npt.NDArray[np.float32]:
+    V = np.zeros(
+        (
+            k**2,
+            k**2,
+        ),
+        dtype=np.int32,
+    )
+    res = np.zeros((k**2, 1), dtype=np.int32)
+    row_index, column_index = 0, 0
+    for tt in range(k**2):
+        row_index1, column_index1 = row_index, column_index
+        for ii in range(k):
+            column_index1 = column_index
+            for jj in range(k):
+                V[tt, ii * k + jj] = initial_matrix[row_index1, column_index1]
+                column_index1 = column_index1 + 1
+            row_index1 = row_index1 + 1
+        res[tt, :] = convolved_matrix[row_index, column_index]
+
+        column_index = column_index + 1
+        if m - column_index < k:
+            column_index = 0
+            row_index += 1
+    return (np.linalg.inv(V) @ res).reshape((k, k))
 
 
 if __name__ == "__main__":
-    pass
+    path = Path("./data/555.txt")
+    params, initial_matrix, convolved_matrix = parser(path)
+    res = custom_inverse_conv2d(*params, initial_matrix, convolved_matrix)
+    for row in res:
+        print(" ".join([f"{x:.0f}" for x in row]))

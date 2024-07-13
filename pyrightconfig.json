@@ -16,5 +16,5 @@
     "reportMissingImports": true,
   
     "pythonVersion": "3.12",
-    "pythonPlatform": "Linux",
+    "pythonPlatform": "Linux"
 }
