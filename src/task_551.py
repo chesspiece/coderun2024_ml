@@ -1,8 +1,8 @@
-import os
-from pathlib import Path
-from fractions import Fraction
-from collections import defaultdict
 import bisect
+import os
+from collections import defaultdict
+from fractions import Fraction
+from pathlib import Path
 
 
 def countingSort(array: list[int]):

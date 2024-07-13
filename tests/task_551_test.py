@@ -1,7 +1,7 @@
+from fractions import Fraction
 from pathlib import Path
 
-from src.task_551 import similarity, parser
-from fractions import Fraction
+from src.task_551 import parser, similarity
 
 
 def test_parser_551():
