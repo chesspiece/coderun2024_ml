@@ -22,14 +22,3 @@ pytest = "^8.2.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.pyright]
-include = ["src", "tests"]
-typeCheckingMode = "strict"
-exclude = ["**/__pycache__",
-           "**/data"
-]
-reportMissingImports = true
-
-pythonVersion = "3.12"
-pythonPlatform = "Linux"
