@@ -9,7 +9,7 @@ def test_parser_555():
     path = Path("./tests/data/555/test1.txt")
     params, initial_matrix, result_matrix = parser(path)
     assert params == (5, 6, 1)
-    assert np.allclose(
+    assert np.equal(
         initial_matrix,
         np.array(
             [
@@ -20,8 +20,8 @@ def test_parser_555():
                 [1, 2, 3, 4, 5, 6],
             ]
         ),
-    )
-    assert np.allclose(
+    ).all()
+    assert np.equal(
         result_matrix,
         np.array(
             [
@@ -32,12 +32,12 @@ def test_parser_555():
                 [1, 2, 3, 4, 5, 6],
             ]
         ),
-    )
+    ).all()
 
     path = Path("./tests/data/555/test2.txt")
     params, initial_matrix, result_matrix = parser(path)
     assert params == (5, 5, 2)
-    assert np.allclose(
+    assert np.equal(
         initial_matrix,
         np.array(
             [
@@ -48,8 +48,8 @@ def test_parser_555():
                 [93, 37, -84, -99, 84],
             ]
         ),
-    )
-    assert np.allclose(
+    ).all()
+    assert np.equal(
         result_matrix,
         np.array(
             [
@@ -59,12 +59,12 @@ def test_parser_555():
                 [-11835, -2233, -1057, 12591],
             ]
         ),
-    )
+    ).all()
 
     path = Path("./tests/data/555/test3.txt")
     params, initial_matrix, result_matrix = parser(path)
     assert params == (6, 5, 3)
-    assert np.allclose(
+    assert np.equal(
         initial_matrix,
         np.array(
             [
@@ -76,8 +76,8 @@ def test_parser_555():
                 [-98, 62, -100, 66, -34],
             ]
         ),
-    )
-    assert np.allclose(
+    ).all()
+    assert np.equal(
         result_matrix,
         np.array(
             [
@@ -87,4 +87,4 @@ def test_parser_555():
                 [-1387, 10203, -15056],
             ]
         ),
-    )
+    ).all()
