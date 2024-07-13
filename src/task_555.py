@@ -12,65 +12,73 @@ def parser(
     Parse input from file into an array and kernel
     """
     with open(path, "r") as f:
-        n, m, k = (int(x) for x in f.readline().strip().split(sep=" "))
+        initial_matrix_rows, initial_matrix_columns, kernel_size = (
+            int(x) for x in f.readline().strip().split(sep=" ")
+        )
 
         initial_matrix = np.zeros(
             (
-                n,
-                m,
+                initial_matrix_rows,
+                initial_matrix_columns,
             ),
             dtype=np.int32,
         )
-        for initial_matrix_row in range(n):
+        for initial_matrix_row in range(initial_matrix_rows):
             initial_matrix[initial_matrix_row, :] = np.array(
                 [int(x) for x in f.readline().strip().split(sep=" ")]
             )
         convolved_matrix = np.zeros(
             (
-                n - k + 1,
-                m - k + 1,
+                initial_matrix_rows - kernel_size + 1,
+                initial_matrix_columns - kernel_size + 1,
             ),
             dtype=np.int32,
         )
-        for convolved_matrix_row in range(n - k + 1):
+        for convolved_matrix_row in range(initial_matrix_rows - kernel_size + 1):
             convolved_matrix[convolved_matrix_row, :] = np.array(
                 [int(x) for x in f.readline().strip().split(sep=" ")]
             )
 
-    return (n, m, k), initial_matrix, convolved_matrix
+    return (
+        (initial_matrix_rows, initial_matrix_columns, kernel_size),
+        initial_matrix,
+        convolved_matrix,
+    )
 
 
 def custom_inverse_conv2d(
-    n: int,
-    m: int,
-    k: int,
+    initial_matrix_rows: int,
+    initial_matrix_columns: int,
+    kernel_size: int,
     initial_matrix: npt.NDArray[np.int32],
     convolved_matrix: npt.NDArray[np.int32],
 ) -> npt.NDArray[np.float32]:
     V = np.zeros(
         (
-            k**2,
-            k**2,
+            kernel_size**2,
+            kernel_size**2,
         ),
         dtype=np.int32,
     )
-    res = np.zeros((k**2, 1), dtype=np.int32)
+    res = np.zeros((kernel_size**2, 1), dtype=np.int32)
     row_index, column_index = 0, 0
-    for tt in range(k**2):
-        row_index1, column_index1 = row_index, column_index
-        for ii in range(k):
-            column_index1 = column_index
-            for jj in range(k):
-                V[tt, ii * k + jj] = initial_matrix[row_index1, column_index1]
-                column_index1 = column_index1 + 1
-            row_index1 = row_index1 + 1
-        res[tt, :] = convolved_matrix[row_index, column_index]
+    for elem in range(kernel_size**2):
+        row_index_kernel_elem, column_index_kernel_elem = row_index, column_index
+        for row in range(kernel_size):
+            column_index_kernel_elem = column_index
+            for column in range(kernel_size):
+                V[elem, row * kernel_size + column] = initial_matrix[
+                    row_index_kernel_elem, column_index_kernel_elem
+                ]
+                column_index_kernel_elem = column_index_kernel_elem + 1
+            row_index_kernel_elem = row_index_kernel_elem + 1
+        res[elem, :] = convolved_matrix[row_index, column_index]
 
         column_index = column_index + 1
-        if m - column_index < k:
+        if initial_matrix_columns - column_index < kernel_size:
             column_index = 0
             row_index += 1
-    return (np.linalg.inv(V) @ res).reshape((k, k))
+    return (np.linalg.inv(V) @ res).reshape((kernel_size, kernel_size))
 
 
 if __name__ == "__main__":
