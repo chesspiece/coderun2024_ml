@@ -19,4 +19,4 @@ def check_tandem(input_strings: list[str]) -> list[tuple[int, int]]:
 
 if __name__ == "__main__":
     path = Path("./data/552.txt")
-    res = similarity(*parser(path))
+    res = check_tandem(parser(path))
