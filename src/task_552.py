@@ -13,5 +13,10 @@ def parser(
     return res
 
 
+def check_tandem(input_strings: list[str]) -> list[tuple[int, int]]:
+    return [(0, 1)]
+
+
 if __name__ == "__main__":
-    pass
+    path = Path("./data/552.txt")
+    res = similarity(*parser(path))
