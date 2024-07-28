@@ -30,9 +30,6 @@ def check_tandem(input_strings: list[str]) -> list[tuple[int, int]]:
             if idx == idx1:
                 continue
             res.append((idx + 1, idx1 + 1))
-        for idx in idx_lst:
-            if idx == idx1:
-                continue
             res.append((idx1 + 1, idx + 1))
     return sorted(res)
 
