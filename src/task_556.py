@@ -4,6 +4,8 @@ from pathlib import Path
 import numpy as np
 import numpy.typing as npt
 
+from sklearn.cluster import KMeans
+
 
 def parser(path: os.PathLike[str]) -> tuple[npt.NDArray[np.int64], int, int, int, int]:
     """
@@ -28,6 +30,17 @@ def parser(path: os.PathLike[str]) -> tuple[npt.NDArray[np.int64], int, int, int
         for idx, line in enumerate(f):
             points[idx, :] = np.array([int(x) for x in line.strip().split()])
     return points, n_clusters, n_points, c_cost, C_const
+
+
+def compute_centers(
+    points: npt.NDArray[np.int64],
+    n_clusters: int,
+    n_points: int,
+    c_cost: int,
+    C_const: int,
+) -> npt.NDArray[np.float128]:
+    clusters_find = KMeans(n_clusters=n_clusters).fit(points)
+    return clusters_find.cluster_centers_
 
 
 if __name__ == "__main__":

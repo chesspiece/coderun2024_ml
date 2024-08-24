@@ -14,6 +14,8 @@
 
     "typeCheckingMode": "strict",
     "reportMissingImports": true,
+    "reportUnknownMemberType": false,
+    "reportUnknownVariableType": false,
   
     "pythonVersion": "3.12",
     "pythonPlatform": "Linux"
