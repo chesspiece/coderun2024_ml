@@ -5,11 +5,12 @@ import numpy as np
 import numpy.typing as npt
 
 from sklearn.cluster import KMeans
+from scipy.optimize import minimize
 
 
 def parser(path: os.PathLike[str]) -> tuple[npt.NDArray[np.int64], int, int, int, int]:
     """
-    Parse the intial file.
+    Parse the initial file.
     Args:
     -----
         path (os.PathLike[str]): path to input file
@@ -38,10 +39,61 @@ def compute_centers(
     n_points: int,
     c_cost: int,
     C_const: int,
-) -> npt.NDArray[np.float128]:
-    clusters_find = KMeans(n_clusters=n_clusters).fit(points)
-    return clusters_find.cluster_centers_
+):
+    """
+    According to the conditions of the task it is assumed that points contains in itself n_clusters convex clusters.
+
+    Args:
+    -----
+        points (npt.NDArray[np.int64]): 2d coordinates
+        n_clusters (int): number of clusters.
+        n_points (int): number of points. Should be equal to the points.size
+        c_cost (int): cost constant
+        C_const (int): overall gain constant
+
+    Returns:
+    --------
+        float: overall gain
+    """
+    clusters_find = KMeans(n_clusters=n_clusters, algorithm="elkan").fit(points)
+    clusters_points: dict[int, npt.NDArray[np.int32]] = {
+        i: np.where(clusters_find.labels_ == i)[0] for i in range(n_clusters)
+    }
+    cluster_centres: list[npt.NDArray[np.float64]] = []
+
+    sm = 0
+    for idx in range(n_clusters):
+        cluster_centre = clusters_find.cluster_centers_[idx]
+        current_cluster_size = clusters_points[idx].size
+
+        def fn(x: npt.NDArray[np.float64]):
+            sm3 = 0
+            for j in range(current_cluster_size):
+                idx2 = clusters_points[idx][j]
+                sm3 += (
+                    c_cost
+                    * (np.power(np.linalg.norm(x - points[idx2], ord=2), 1 / 4) + 1)
+                    / current_cluster_size
+                )
+            return sm3
+
+        res = minimize(
+            fn, clusters_find.cluster_centers_[idx], method="Nelder-Mead", tol=1e-12
+        )
+        cluster_centre: npt.NDArray[np.float64] = res.x
+        sm += res.fun
+
+        cluster_centres.append(cluster_centre)
+
+    with open("output_task_556.txt", "w") as f:
+        f.write(f"{C_const - sm}\n")
+        for centre in cluster_centres:
+            f.write(f"{centre[0]} {centre[1]}\n")
+        for idx in range(n_clusters):
+            f.write(" ".join(map(str, clusters_points[idx])) + "\n")
+    return
 
 
 if __name__ == "__main__":
     path = Path("./data/556.txt")
+    compute_centers(*parser(path))
