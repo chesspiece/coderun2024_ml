@@ -63,7 +63,6 @@ def compute_centers(
 
     sm = 0
     for idx in range(n_clusters):
-        cluster_centre = clusters_find.cluster_centers_[idx]
         current_cluster_size = clusters_points[idx].size
 
         def fn(x: npt.NDArray[np.float64]):
@@ -80,10 +79,9 @@ def compute_centers(
         res = minimize(
             fn, clusters_find.cluster_centers_[idx], method="Nelder-Mead", tol=1e-12
         )
-        cluster_centre: npt.NDArray[np.float64] = res.x
         sm += res.fun
 
-        cluster_centres.append(cluster_centre)
+        cluster_centres.append(res.x)
 
     with open("output_task_556.txt", "w") as f:
         f.write(f"{C_const - sm}\n")
