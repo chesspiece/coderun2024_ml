@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "coderun-machine-learning-2024"
 version = "0.1.0"
-description = "Solutions for yandex coderun secon season of 2024. Machine learning."
+description = "Solutions for yandex coderun second season of 2024. Machine learning."
 authors = ["Manshilin Oleg <manshilin.o@gmail.com>"]
 license = "MIT"
 readme = "README.md"
