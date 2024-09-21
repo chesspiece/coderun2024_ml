@@ -42,6 +42,7 @@ def compute_centers(
 ):
     """
     According to the conditions of the task it is assumed that points contains in itself n_clusters convex clusters.
+    This function creates txt files which contains results of the task.
 
     Args:
     -----
@@ -53,7 +54,6 @@ def compute_centers(
 
     Returns:
     --------
-        float: overall gain
     """
     clusters_find = KMeans(n_clusters=n_clusters, algorithm="elkan").fit(points)
     clusters_points: dict[int, npt.NDArray[np.int32]] = {
