@@ -1,5 +1,6 @@
 poetry.lock
 .pytest*
 *__pycache__*
-*.txt
 *.vscode
+data/*.txt
+tests/data/556/test1.txt
