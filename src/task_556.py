@@ -5,7 +5,7 @@ import numpy as np
 import numpy.typing as npt
 
 from sklearn.cluster import KMeans
-from scipy.optimize import minimize
+from scipy.optimize import minimize # type: ignore
 
 
 def parser(path: os.PathLike[str]) -> tuple[npt.NDArray[np.int64], int, int, int, int]:
@@ -81,7 +81,7 @@ def compute_centers(
         )
         sm += res.fun
 
-        cluster_centres.append(res.x)
+        cluster_centres.append(res.x) # type: ignore
 
     with open("output_task_556.txt", "w") as f:
         f.write(f"{C_const - sm}\n")
