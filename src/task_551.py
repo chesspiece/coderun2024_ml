@@ -5,7 +5,7 @@ from fractions import Fraction
 from pathlib import Path
 
 
-def countingSort(array: list[int]):
+def counting_sort(array: list[int]):
     """
     Counting sort implementations.
     Returns indexes for  sorted array.
@@ -16,11 +16,11 @@ def countingSort(array: list[int]):
     # Initialize count array
     count = [0] * size
 
-    # Store the count of each elements in count array
+    # Store the count of each element in count array
     for i in range(0, size):
         count[array[i]] += 1
 
-    # Store the cummulative count
+    # Store the cumulative count
     for i in range(1, size):
         count[i] += count[i - 1]
 
@@ -45,10 +45,10 @@ def parser(
         size = int(f.readline().strip())
         h1_classes = [
             int(x) for x in f.readline().strip().split(sep=" ")
-        ]  # classes choosen by first human
+        ]  # classes chosen by first human
         h2_classes = [
             int(x) for x in f.readline().strip().split(sep=" ")
-        ]  # classes choosen by second human
+        ]  # classes chosen by second human
     return h1_classes, h2_classes, size
 
 
@@ -56,7 +56,7 @@ def similarity(h1_classes: list[int], h2_classes: list[int], size: int) -> Fract
     """
     Compute similarity metric from task 551.
     """
-    idxs = countingSort(h2_classes)
+    idxs = counting_sort(h2_classes)
 
     summ = size * (size - 1) >> 1
     h1_dict: list[list[int]] = [[] for _ in range(size)]
